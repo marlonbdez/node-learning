@@ -1,0 +1,34 @@
+ñ -> 2 bytes 
+€ -> 3 bytes
+😀 -> 4 bytes
+
+
+pues el buffer length son los mismos, 2, 3 y 4 respectivamente, no?
+
+texto length 1, 1, 2 respectivamente
+
+const texto = 'ñ€😀'
+
+texto.length es 
+
+const buffer = Buffer.from(texto);
+buffer.length -> 9 -> 9 bytes
+[...texto].length -> 3 caracteres
+texto.length -> 4, ya que cuenta unidades utf16 (1 + 1 + 2 = 4)
+
+
+con buffer alloc, se crea un buffer reservando el espacio con valores a 0
+es más lento que el allocUnsafe, que te reserva el espacio pero puede
+contener bytes que no están a 0, que son parte de otros buffers, o mejor dicho
+que obtiene bytes de un espacio común en la memoria que puede estar con información
+no sé cómo decir esto de una manera sencilla y fácil de explicar y entender.
+
+
+const buffer1 = Buffer.alloc(10, 'a') -> devuelve un buffer con el byte de 'a' repetido, sino pongo nada, sería 0
+const buffer2 = Buffer.allocUnsafe(10) -> devuevle un buffer, pero sus bytes no estarán a 0 necesariamente
+
+
+allocUnsafe:
+«reserva la memoria sin borrarla, 
+así que puede tener restos de datos anteriores; 
+por eso solo se usa cuando vas a escribir todos los bytes antes de leerlos».
